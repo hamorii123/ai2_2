@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Miejscowości | Pogodynka{% endblock %}
+
+{% block body %}
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
+        <div>
+            <h1 class="h2 mb-1">Miejscowości</h1>
+            <p class="text-secondary mb-0">Zarządzaj lokalizacjami pomiarów pogodowych.</p>
+        </div>
+
+        <a href="{{ path('app_location_new') }}" class="btn btn-primary">
+            + Dodaj miejscowość
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-primary">
+                    <tr>
+                        <th scope="col" class="ps-3">ID</th>
+                        <th scope="col">Miejscowość</th>
+                        <th scope="col">Państwo</th>
+                        <th scope="col">Szerokość geograficzna</th>
+                        <th scope="col">Długość geograficzna</th>
+                        <th scope="col" class="text-end pe-3">Akcje</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for location in locations %}
+                        <tr>
+                            <td class="ps-3">{{ location.id }}</td>
+                            <td class="fw-semibold">{{ location.city }}</td>
+                            <td>
+                                <span class="badge text-bg-light border">
+                                    {{ location.country }}
+                                </span>
+                            </td>
+                            <td>{{ location.latitude }}</td>
+                            <td>{{ location.longitude }}</td>
+                            <td class="text-end pe-3">
+                                <div class="d-flex justify-content-end flex-wrap gap-2">
+                                    <a href="{{ path('app_location_show', {'id': location.id}) }}"
+                                       class="btn btn-outline-primary btn-sm">
+                                        Szczegóły
+                                    </a>
+                                    <a href="{{ path('app_location_edit', {'id': location.id}) }}"
+                                       class="btn btn-outline-secondary btn-sm">
+                                        Edytuj
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center py-5">
+                                <p class="text-secondary mb-3">Brak zapisanych miejscowości.</p>
+                                <a href="{{ path('app_location_new') }}" class="btn btn-primary btn-sm">
+                                    Dodaj pierwszą miejscowość
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
