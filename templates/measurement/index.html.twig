@@ -9,9 +9,9 @@
             <p class="text-secondary mb-0">Lista zapisanych danych meteorologicznych.</p>
         </div>
 
-        <a href="{{ path('app_measurement_new') }}" class="btn btn-primary">
-            + Dodaj pomiar
-        </a>
+        {%  if is_granted('ROLE_MEASUREMENT_NEW') %}
+            <a href="{{ path('app_measurement_new') }}">+ Dodaj pomiar</a>
+        {% endif %}
     </div>
 
     <div class="card shadow-sm border-0">
@@ -51,14 +51,13 @@
                             </td>
                             <td class="text-end pe-3">
                                 <div class="d-flex justify-content-end flex-wrap gap-2">
-                                    <a href="{{ path('app_measurement_show', {'id': measurement.id}) }}"
-                                       class="btn btn-outline-primary btn-sm">
-                                        Szczegóły
-                                    </a>
-                                    <a href="{{ path('app_measurement_edit', {'id': measurement.id}) }}"
-                                       class="btn btn-outline-secondary btn-sm">
-                                        Edytuj
-                                    </a>
+
+                                    {%  if is_granted('ROLE_MEASUREMENT_SHOW') %}
+                                        <a href="{{ path('app_measurement_show', {'id': measurement.id}) }}">Szczegóły</a>
+                                    {% endif %}
+                                    {%  if is_granted('ROLE_MEASUREMENT_EDIT') %}
+                                        <a href="{{ path('app_measurement_edit', {'id': measurement.id}) }}">Edytuj</a>
+                                    {% endif %}
                                 </div>
                             </td>
                         </tr>

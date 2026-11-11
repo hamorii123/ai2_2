@@ -8,10 +8,10 @@
             <h1 class="h2 mb-1">Miejscowości</h1>
             <p class="text-secondary mb-0">Zarządzaj lokalizacjami pomiarów pogodowych.</p>
         </div>
+        {%  if is_granted('ROLE_LOCATION_NEW') %}
+            <a href="{{ path('app_location_new') }}">+Dodaj miejscowość</a>
+        {% endif %}
 
-        <a href="{{ path('app_location_new') }}" class="btn btn-primary">
-            + Dodaj miejscowość
-        </a>
     </div>
 
     <div class="card shadow-sm border-0">
@@ -42,14 +42,13 @@
                             <td>{{ location.longitude }}</td>
                             <td class="text-end pe-3">
                                 <div class="d-flex justify-content-end flex-wrap gap-2">
-                                    <a href="{{ path('app_location_show', {'id': location.id}) }}"
-                                       class="btn btn-outline-primary btn-sm">
-                                        Szczegóły
-                                    </a>
-                                    <a href="{{ path('app_location_edit', {'id': location.id}) }}"
-                                       class="btn btn-outline-secondary btn-sm">
-                                        Edytuj
-                                    </a>
+                                    {% if is_granted('ROLE_LOCATION_SHOW') %}
+                                        <a href="{{ path('app_location_show', {'id': location.id}) }}">Szczegóły</a>
+                                    {% endif %}
+
+                                    {% if is_granted('ROLE_LOCATION_EDIT') %}
+                                        <a href="{{ path('app_location_edit', {'id': location.id}) }}">Edytuj</a>
+                                    {% endif %}
                                 </div>
                             </td>
                         </tr>
@@ -57,9 +56,12 @@
                         <tr>
                             <td colspan="6" class="text-center py-5">
                                 <p class="text-secondary mb-3">Brak zapisanych miejscowości.</p>
-                                <a href="{{ path('app_location_new') }}" class="btn btn-primary btn-sm">
-                                    Dodaj pierwszą miejscowość
-                                </a>
+                                {% if is_granted('ROLE_LOCATION_NEW') %}
+                                    <a href="{{ path('app_location_new') }}" class="btn btn-primary btn-sm">
+                                        Dodaj pierwszą miejscowość
+                                    </a>
+                                {% endif %}
+
                             </td>
                         </tr>
                     {% endfor %}
